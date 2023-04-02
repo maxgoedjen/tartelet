@@ -40,6 +40,10 @@ internal enum L10n {
       internal static let organizationName = L10n.tr("Localizable", "settings.github.organization_name", fallback: "Organization Name")
       /// Private Key (PEM)
       internal static let privateKey = L10n.tr("Localizable", "settings.github.private_key", fallback: "Private Key (PEM)")
+      /// Repositories
+      internal static let repositories = L10n.tr("Localizable", "settings.github.repositories", fallback: "Repositories")
+      /// Target Type
+      internal static let targetType = L10n.tr("Localizable", "settings.github.target_type", fallback: "Target Type")
       internal enum PrivateKey {
         /// Select a private key (PEM)
         internal static let placeholder = L10n.tr("Localizable", "settings.github.private_key.placeholder", fallback: "Select a private key (PEM)")
@@ -48,6 +52,16 @@ internal enum L10n {
         internal static let scopes = L10n.tr("Localizable", "settings.github.private_key.scopes", fallback: "The private key must have these scopes set:\n✔ Self-hosted runners (Read and write)")
         /// Select File
         internal static let selectFile = L10n.tr("Localizable", "settings.github.private_key.select_file", fallback: "Select File")
+      }
+      internal enum Repositories {
+        /// Comma-separated list of respository names.
+        internal static let footer = L10n.tr("Localizable", "settings.github.repositories.footer", fallback: "Comma-separated list of respository names.")
+      }
+      internal enum TargetType {
+        /// Organization
+        internal static let organization = L10n.tr("Localizable", "settings.github.target_type.organization", fallback: "Organization")
+        /// Personal Account
+        internal static let personal = L10n.tr("Localizable", "settings.github.target_type.personal", fallback: "Personal Account")
       }
     }
     internal enum GithubRunner {

@@ -12,7 +12,12 @@
 "settings.virtual_machine.count.two" = "Two";
 
 "settings.github" = "GitHub";
+"settings.github.target_type" = "Target Type";
+"settings.github.target_type.organization" = "Organization";
+"settings.github.target_type.personal" = "Personal Account";
 "settings.github.organization_name" = "Organization Name";
+"settings.github.repositories" = "Repositories";
+"settings.github.repositories.footer" = "Comma-separated list of respository names.";
 "settings.github.app_id" = "App ID";
 "settings.github.private_key" = "Private Key (PEM)";
 "settings.github.private_key.select_file" = "Select File";

@@ -12,8 +12,20 @@ struct GitHubSettingsView: View {
 
     var body: some View {
         Form {
-            TextField(L10n.Settings.Github.organizationName, text: $viewModel.organizationName)
+            GitHubSettingsTargetTypePicker(selection: $viewModel.targetType)
                 .disabled(!viewModel.isSettingsEnabled)
+            switch viewModel.targetType {
+            case .organization:
+                TextField(L10n.Settings.Github.organizationName, text: $viewModel.organizationName)
+                    .disabled(!viewModel.isSettingsEnabled)
+            case .personal:
+                TextField(L10n.Settings.Github.repositories, text: $viewModel.repositories)
+                    .disabled(!viewModel.isSettingsEnabled)
+                Text(L10n.Settings.Github.Repositories.footer)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.secondary)
+            }
             TextField(L10n.Settings.Github.appId, text: $viewModel.appId)
                 .disabled(!viewModel.isSettingsEnabled)
             LabeledContent {

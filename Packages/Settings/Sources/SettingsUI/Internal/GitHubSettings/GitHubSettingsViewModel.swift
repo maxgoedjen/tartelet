@@ -7,7 +7,9 @@ import SwiftUI
 @MainActor
 final class GitHubSettingsViewModel: ObservableObject {
     let settingsStore: SettingsStore
+    @Published var targetType: GitHubSettingsTargetType = .organization
     @Published var organizationName: String = ""
+    @Published var repositories: String = ""
     @Published var appId: String = ""
     @Published private(set) var privateKeyName: String?
     @Published private(set) var isSettingsEnabled = true
