@@ -69,7 +69,7 @@ final class GitHubSettingsViewModel: ObservableObject {
     }
 
     func loadCredentials() async {
-        targetType = await GitHubSettingsTargetType(rawValue: credentialsStore.targetType ?? "") ?? GitHubSettingsTargetType.organization
+        targetType = (await credentialsStore.targetType).flatMap(GitHubSettingsTargetType.init(rawValue:)) ?? .organization
         organizationName = await credentialsStore.organizationName ?? ""
         repositoryNames = await credentialsStore.repositoryNames ?? ""
         appId = await credentialsStore.appId ?? ""
