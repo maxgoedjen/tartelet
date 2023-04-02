@@ -5,7 +5,9 @@ import RSAPrivateKey
 
 public final actor GitHubCredentialsStoreKeychain: GitHubCredentialsStore {
     private enum PasswordAccount {
+        static let targetType = "github.credentials.targetType"
         static let organizationName = "github.credentials.organizationName"
+        static let repositoryNames = "github.credentials.repositoryNames"
         static let appId = "github.credentials.appId"
     }
 
@@ -13,6 +15,16 @@ public final actor GitHubCredentialsStoreKeychain: GitHubCredentialsStore {
         static let privateKey = "github.credentials.privateKey"
     }
 
+    public var targetType: String? {
+        get async {
+            return await keychain.password(forAccount: PasswordAccount.targetType, belongingToService: serviceName)
+        }
+    }
+    public var repositoryNames: String? {
+        get async {
+            return await keychain.password(forAccount: PasswordAccount.repositoryNames, belongingToService: serviceName)
+        }
+    }
     public var organizationName: String? {
         get async {
             return await keychain.password(forAccount: PasswordAccount.organizationName, belongingToService: serviceName)
@@ -37,11 +49,27 @@ public final actor GitHubCredentialsStoreKeychain: GitHubCredentialsStore {
         self.serviceName = serviceName
     }
 
+    public func setTargetType(_ targetType: String?) async {
+        if let targetType {
+            _ = await keychain.setPassword(targetType, forAccount: PasswordAccount.targetType, belongingToService: serviceName)
+        } else {
+            await keychain.removePassword(forAccount: PasswordAccount.targetType, belongingToService: serviceName)
+        }
+    }
+
     public func setOrganizationName(_ organizationName: String?) async {
         if let organizationName {
             _ = await keychain.setPassword(organizationName, forAccount: PasswordAccount.organizationName, belongingToService: serviceName)
         } else {
             await keychain.removePassword(forAccount: PasswordAccount.organizationName, belongingToService: serviceName)
+        }
+    }
+
+    public func setRepositoryNames(_ repositoryNames: String?) async {
+        if let repositoryNames {
+            _ = await keychain.setPassword(repositoryNames, forAccount: PasswordAccount.repositoryNames, belongingToService: serviceName)
+        } else {
+            await keychain.removePassword(forAccount: PasswordAccount.repositoryNames, belongingToService: serviceName)
         }
     }
 

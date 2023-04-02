@@ -1,8 +1,8 @@
 import Foundation
 
 enum GitHubSettingsTargetType: String, CaseIterable, Identifiable {
-    case organization = "organization"
-    case personal = "personal"
+    case organization
+    case personal
 
     var id: Self {
         return self

@@ -9,7 +9,7 @@ final class GitHubSettingsViewModel: ObservableObject {
     let settingsStore: SettingsStore
     @Published var targetType: GitHubSettingsTargetType = .organization
     @Published var organizationName: String = ""
-    @Published var repositories: String = ""
+    @Published var repositoryNames: String = ""
     @Published var appId: String = ""
     @Published private(set) var privateKeyName: String?
     @Published private(set) var isSettingsEnabled = true
@@ -28,9 +28,19 @@ final class GitHubSettingsViewModel: ObservableObject {
         self.settingsStore = settingsStore
         self.credentialsStore = credentialsStore
         isSettingsEnabled.assign(to: \.isSettingsEnabled, on: self).store(in: &cancellables)
+        $targetType.debounce(for: 0.5, scheduler: DispatchQueue.main).dropFirst().sink { [weak self] targetType in
+            Task {
+                await self?.credentialsStore.setTargetType(targetType.rawValue)
+            }
+        }.store(in: &cancellables)
         $organizationName.debounce(for: 0.5, scheduler: DispatchQueue.main).nilIfEmpty().dropFirst().sink { [weak self] organizationName in
             Task {
                 await self?.credentialsStore.setOrganizationName(organizationName)
+            }
+        }.store(in: &cancellables)
+        $repositoryNames.debounce(for: 0.5, scheduler: DispatchQueue.main).nilIfEmpty().dropFirst().sink { [weak self] repositoryNames in
+            Task {
+                await self?.credentialsStore.setRepositoryNames(repositoryNames)
             }
         }.store(in: &cancellables)
         $appId.debounce(for: 0.5, scheduler: DispatchQueue.main).nilIfEmpty().dropFirst().sink { [weak self] appId in
@@ -59,7 +69,9 @@ final class GitHubSettingsViewModel: ObservableObject {
     }
 
     func loadCredentials() async {
+        targetType = await GitHubSettingsTargetType(rawValue: credentialsStore.targetType ?? "") ?? GitHubSettingsTargetType.organization
         organizationName = await credentialsStore.organizationName ?? ""
+        repositoryNames = await credentialsStore.repositoryNames ?? ""
         appId = await credentialsStore.appId ?? ""
         let privateKey = await credentialsStore.privateKey
         privateKeyName = privateKey != nil ? settingsStore.gitHubPrivateKeyName : nil

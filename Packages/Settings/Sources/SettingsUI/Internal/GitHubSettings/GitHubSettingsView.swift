@@ -19,7 +19,7 @@ struct GitHubSettingsView: View {
                 TextField(L10n.Settings.Github.organizationName, text: $viewModel.organizationName)
                     .disabled(!viewModel.isSettingsEnabled)
             case .personal:
-                TextField(L10n.Settings.Github.repositories, text: $viewModel.repositories)
+                TextField(L10n.Settings.Github.repositories, text: $viewModel.repositoryNames)
                     .disabled(!viewModel.isSettingsEnabled)
                 Text(L10n.Settings.Github.Repositories.footer)
                     .multilineTextAlignment(.center)
